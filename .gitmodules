@@ -1,0 +1,6 @@
+[submodule "sub/yuicompressor"]
+	path = sub/yuicompressor
+	url = github:yui/yuicompressor
+[submodule "sub/html-minifier"]
+	path = sub/html-minifier
+	url = github:kangax/html-minifier
