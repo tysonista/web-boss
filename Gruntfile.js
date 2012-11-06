@@ -19,10 +19,10 @@ module.exports = function( grunt ) {
     coffee: {
       compile: {
         files: {
-          'temp/scripts/*.js': 'scripts/**/*.coffee' 
+          'temp/js/*.js': 'js/**/*.coffee' 
         },
         options: {
-          basePath: 'scripts'
+          basePath: 'js'
         }
       }
     },
@@ -32,10 +32,10 @@ module.exports = function( grunt ) {
       dist: {
         // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
         options: {
-          css_dir: 'temp/styles',
-          sass_dir: 'styles',
+          css_dir: 'temp/css',
+          sass_dir: 'css',
           images_dir: 'images',
-          javascripts_dir: 'temp/scripts',
+          javascripts_dir: 'temp/js',
           force: true
         }
       }
@@ -54,20 +54,20 @@ module.exports = function( grunt ) {
     // default watch configuration
     watch: {
       coffee: {
-        files: 'scripts/**/*.coffee',
+        files: 'js/**/*.coffee',
         tasks: 'coffee reload'
       },
       compass: {
         files: [
-          'styles/**/*.{scss,sass}'
+          'css/**/*.{scss,sass}'
         ],
         tasks: 'compass reload'
       },
       reload: {
         files: [
           '*.html',
-          'styles/**/*.css',
-          'scripts/**/*.js',
+          'css/**/*.css',
+          'js/**/*.js',
           'images/**/*'
         ],
         tasks: 'reload'
@@ -79,7 +79,7 @@ module.exports = function( grunt ) {
     lint: {
       files: [
         'Gruntfile.js',
-        'scripts/**/*.js',
+        'js/**/*.js',
         'spec/**/*.js'
       ]
     },
@@ -124,14 +124,14 @@ module.exports = function( grunt ) {
 
     // concat css/**/*.css files, inline @import, output a single minified css
     css: {
-      'styles/main.css': ['styles/**/*.css']
+      'css/main.css': ['css/**/*.css']
     },
 
     // renames JS/CSS to prepend a hash of their contents for easier
     // versioning
     rev: {
-      js: 'scripts/**/*.js',
-      css: 'styles/**/*.css',
+      js: 'js/**/*.js',
+      css: 'css/**/*.css',
       img: 'images/**'
     },
 
@@ -167,7 +167,7 @@ module.exports = function( grunt ) {
     rjs: {
       // no minification, is done by the min task
       optimize: 'none',
-      baseUrl: './scripts',
+      baseUrl: './js',
       wrap: true,
       name: 'main'
     },
