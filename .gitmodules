@@ -10,3 +10,6 @@
 [submodule "sub/js-beautify"]
 	path = sub/js-beautify
 	url = github:einars/js-beautify.git
+[submodule "sub/jshint"]
+	path = sub/jshint
+	url = github:jshint/jshint
