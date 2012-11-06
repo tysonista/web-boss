@@ -4,3 +4,9 @@
 [submodule "sub/html-minifier"]
 	path = sub/html-minifier
 	url = github:kangax/html-minifier
+[submodule "sub/JSLint"]
+	path = sub/JSLint
+	url = github:douglascrockford/JSLint.git
+[submodule "sub/js-beautify"]
+	path = sub/js-beautify
+	url = github:einars/js-beautify.git
