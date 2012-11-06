@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<title>Web BOSS(Web Build Optimization Smart System)</title>
+
+<meta name="description"
+	content="A framework for easily creating beautiful web resources using Web BOSS">
+<meta name="author" content="Hakim El Hattab">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent" />
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+<!-- For syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- Custom CSS -->
+<link type="text/css" rel="stylesheet" href="plugin/jangle/jangle.css">
+
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+	document.write('<link rel="stylesheet" href="css/print/'
+			+ (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper')
+			+ '.css" type="text/css" media="print">');
+</script>
+
+<!-- Custom JS files -->
+<script src="plugin/jangle/jquery-1.6.min.js"></script>
+<script type="text/javascript" src="plugin/jangle/jquery.jangle.js"></script> <!-- load jangle plugin -->
+<script src="plugin/jangle/jangle.js"></script>
+
+<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section>
+				<section id="home">
+					<h1>web boss</h1>
+					<p>
+						(Web Build Optimization Smart Service)<br>
+					</p>
+					<p>
+						<br>
+					</p>
+					<p>
+						<br>
+					</p>
+					<p>
+						<br>
+					</p>
+					<p align="right">
+						<br>
+					</p>
+					<p align="right">
+						Advisor Engineer<br>
+					</p>
+					<p align="right">Taeyoung Son</p>
+					<p align="right">
+						<br>
+					</p>
+					<div>
+						<pre>tysonista@gmail.com</pre>
+					</div>
+				</section>
+
+
+
+				<section id="contents">
+					<h2>Contents</h2>
+					<div>
+						<div align="left">
+							<ul>
+								<li><font color="#FF99FF" face="arial"> <b>What
+											is <u>web build optimization</u> ?
+									</b>
+								</font></li>
+							</ul>
+						</div>
+						<div align="left">
+							<ul>
+								<li><b> <font color="#FF99FF" face="arial">Optimizing
+											resources (html, js, css, png, jpeg, ...)</font>
+								</b> <br> <font size="5"> - General form<br> -
+										Target(minify, concat, ...)<br> - Supporting open sources<br>
+								</font></li>
+							</ul>
+							<font face="arial"> <br>
+							</font>
+							<div align="left">
+								<ul>
+									<li><b> <font color="#FF99FF" face="arial">ETC</font>
+									</b> <br> <font size="5"> - Creating resources easily<br>
+											- Checking error real time<br>
+									</font></li>
+									<li><b> <font color="#FF99FF" face="arial">Web
+												BOSS for</font>
+									</b> <br> <font size="5"> - Optimizing resources<br>
+											- Optimizing build process<br> - Checking error real
+											time<br>
+									</font></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</section>
+			</section>
+
+
+
+			<section>
+				<h2>
+					<font color="#FF99FF">What is <u>web build optimization</u>?
+					</font>
+				</h2>
+				<div>
+					<br>
+					<ul>
+						<li>Concate, minify resources (html, js, css, png, ...)</li>
+						<li>Create resources easily<br>
+						</li>
+						<li>Check error web resources<br>
+						</li>
+					</ul>
+				</div>
+			</section>
+
+
+
+			<section id="optimizing resources">
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources</font>
+					</h2>
+					<p>
+						<font color="#FF99FF" size="7"> <b>- html, js, css,
+								png, jpeg -</b>
+						</font> <br> <br>
+					</p>
+					<div align="left">
+						<ul>
+							<li><font>General form</font></li>
+							<li><font>Target(minify, concat, ...)</font></li>
+							<li><font>Supporting open sources</font></li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> HTML<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>General form<br>
+							</li>
+						</ul>
+					</div>
+					<pre id="html_pre">
+<code>
+<span>&lt;html&gt;</span>
+	<span>&lt;head&gt;</span>
+        <span>&lt;title&gt;</span>
+	        <span>Title of the document</span>
+        <span>&lt;/title&gt;</span>
+    <span>&lt;/head&gt;</span>
+
+    <span>&lt;body&gt;</span>
+        <span>The content of the document......</span>
+<span>&lt;/body&gt;</span>
+<span>&lt;/html&gt;</span>
+
+</code>
+
+					</pre>
+					<button onclick="run_source()" id=html_pre_button style="z-index:120;">run</button>
+					<script>
+        function run_source() {
+            if ( $("#html_pre_button").text() === "run" )
+            {
+                $("#html_pre > code").remove();
+                $("#html_pre").append(
+                    "<html><head><title>Title of the document</title></head><body>The content of the document......</body></html>"
+                );
+                $("#html_pre_button").text("restore");
+            }
+            else if( $("#html_pre_button").text() === "restore" )
+            {
+                $("#html_pre").html(
+				"<code>"+
+				"<span>&lt;html&gt;</span><br>"+
+				"<span>    &lt;head&gt;</span><br>"+
+				"<span>        &lt;title&gt;</span><br>"+
+				"<span>            Title of the document</span><br>"+
+				"<span>        &lt;/title&gt;</span><br>"+
+				"<span>    &lt;/head&gt;</span><br>"+
+				"<span>    &lt;body&gt;</span><br>"+
+				"<span>        The content of the document......</span><br>"+
+				"<span>    &lt;/body&gt;</span><br>"+
+				"<span>&lt;/html&gt;</span><br>"+
+				"</code>"
+                );
+                $("#html_pre_button").text("run");
+            }
+        }
+    </script>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> HTML<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>optimization part<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> HTML<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>Supporting open sources<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> JavaScript<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>General form<br>
+							</li>
+						</ul>
+					</div>
+                    <div id="simplerect" class='jangle'>
+                        <canvas width="400" height="200" style='border: 1px solid black'></canvas>
+                        <pre></pre>
+                        <div class='popup shadow'>000</div>
+                    </div>
+                    <script type="text/javascript" class='bookscript'>
+        $(document).ready(function() {
+            function drawit(ctx, var1, var2, var3, var4) {
+                ctx.fillStyle = "red";
+                //x, y, width, height
+                ctx.fillRect(var1,var2,var3,var4);
+            }
+            var tangle = new Jangle();
+            tangle.drawfun = drawit;
+            tangle.vars = { var1:20, var2:30, var3:40,  var4:50, };
+            tangle.setup("simplerect");
+        });
+                    </script>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> JavaScript<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>target<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> JavaScript<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>Supporting open sources<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> CSS<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>General form<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> CSS<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>target<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> CSS<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>Supporting open sources<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> png<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>General form<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> png<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>target<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> png<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>Supporting open sources<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> jpeg<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>General form<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> jpeg<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>target<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+
+
+				<section>
+					<h2>
+						<font color="#FF99FF">Optimizing Resources &gt;</font> jpeg<br>
+					</h2>
+					<div align="left">
+						<ul>
+							<li>Supporting open sources<br>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+
+
+			<section>
+				<h2>
+					<font color="#FF99FF">ETC</font>
+				</h2>
+				<div>
+					<ul>
+						<li><font>Creating resources easily</font></li>
+					</ul>
+					<font> <br> <font size="5">&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp; &nbsp; &nbsp; - coffeescript<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							- sass<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							- less<br> <br>
+					</font>
+					</font>
+					<ul>
+						<li><font>Checking error real time</font></li>
+					</ul>
+					<br> <font size="5">&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+						&nbsp; &nbsp;&nbsp; - jshint<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						- jslint<br>
+					</font>
+				</div>
+			</section>
+
+
+
+			<section>
+				<h2>
+					<font color="#FF99FF">Web BOSS for&nbsp;</font>
+				</h2>
+				<div>
+					<ul>
+						<li>Optimizing resources</li>
+						<li>Optimizing build process</li>
+						<li>Checking error real time<br>
+						</li>
+					</ul>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.min.js"></script>
+
+	<script>
+		// Full list of configuration options available here:
+		// https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls : true,
+			progress : true,
+			history : true,
+
+			theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
+			transition : Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+			// Optional libraries used to extend on reveal.js
+			dependencies : [ {
+				src : 'lib/js/highlight.js',
+				async : true,
+				callback : function() {
+					window.hljs.initHighlightingOnLoad();
+				}
+			}, {
+				src : 'lib/js/classList.js',
+				condition : function() {
+					return !document.body.classList;
+				}
+			}, {
+				src : 'lib/js/showdown.js',
+				condition : function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src : 'lib/js/data-markdown.js',
+				condition : function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src : 'plugin/zoom-js/zoom.js',
+				async : true,
+				condition : function() {
+					return !!document.body.classList;
+				}
+			}, {
+				src : 'plugin/notes/notes.js',
+				async : true,
+				condition : function() {
+					return !!document.body.classList;
+				}
+			} ]
+		});
+	</script>
+	
+
+
+</body>
+</html>
