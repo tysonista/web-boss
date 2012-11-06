@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://tysonista.github.com/web-boss" version="1.0" viewmodes="fullscreen">
+    <tizen:application id="ih4qSIBxL9" required_version="1.0"/>
+    <author href="tysonista.github.com" email="tysonista@gmail.com">Taeyoung Son</author>
+    <content src="index.html"/>
+    <description>WEB Build Optimization Smart Service</description>
+    <icon src="favicon.ico"/>
+    <name>web boss</name>
+</widget>
