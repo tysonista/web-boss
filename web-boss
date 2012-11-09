@@ -1,0 +1,287 @@
+#!/bin/sh
+
+## default value
+
+cmdPath=`which $0|dirname $0`
+. ${cmdPath}/config/default.properties
+#src="`pwd`/."
+#out="`pwd`/out"
+tools="${cmdPath}/tools"
+yuicompressor=${tools}/yuicompressor-2.4.8pre.jar
+htmlcompressor=${tools}/htmlcompressor-1.5.3.jar
+optipng=${tools}/optipng-0.7.4
+jpegtran=${tools}/jpegtran
+
+help() {
+    echo "Usage : web-boss <build|optimize|unittest|liview|dist|create>"
+    exit 0
+}
+
+if [ $# -ge 1 ]
+then
+    operation=$1
+    shift
+else
+    help
+fi
+
+build() {
+    #TODO
+    echo "Compile little languages, and check error using lint"
+}
+
+__optimize_css() {
+#    java -jar ${yuicompressor} -o ${out}/style.min.concat.css ${src}/**/*.css
+
+    list=`find ${src} -type f -name "*.css"`
+    for file in ${list}
+    do
+        fileName=`basename ${file} .css`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        java -jar ${yuicompressor} --type css -o ${out}/${relDir}/${fileName}.min.css ${src}/${relFile}
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+        
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+}
+
+__optimize_js() {
+#        java -jar ${yuicompressor} --type js -o ${out}/main.min.concat.js ${src}/**/*.js
+
+    list="`find ${src} -type f -name \"*.js\"`"
+    for file in ${list}
+    do
+        fileName=`basename ${file} .js`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        java -jar ${yuicompressor} --type js -o ${out}/${relDir}/${fileName}.min.js ${src}/${relFile}
+#        java -jar ${yuicompressor} --type js -o ${out}/${relFile}.min ${src}/${relFile}
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+}
+
+__optimize_html() {
+    list="`find ${src} -type f -name \"*.html\"`"
+    for file in ${list}
+    do
+        fileName=`basename ${file} .html`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        java -jar ${htmlcompressor} --type html -o ${out}/${relDir}/${fileName}.html ${src}/${relFile}
+#        java -jar ${htmlcompressor} --type js -o ${out}/${relFile}.min ${src}/${relFile}
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+}
+
+__optimize_xml() {
+    list="`find ${src} -type f -name \"*.xml\"`"
+    for file in ${list}
+    do
+        fileName=`basename ${file} .xml`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        java -jar ${htmlcompressor} --type xml -o ${out}/${relDir}/${fileName}.xml ${src}/${relFile}
+#        java -jar ${htmlcompressor} --type xml -o ${out}/${relFile}.min ${src}/${relFile}
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+}
+
+__optimize_png() {
+    echo "PNG, BMP, GIF, PNM or TIFF optimizing..."
+    list="`find ${src} -type f -name \"*.png\" -o -type f -name \"*.bmp\" -o -type f -name \"*.gif\" -o -type f -name \"*.pnm\" -o -type f -name \"*.tiff\"`"
+    for file in ${list}
+    do
+        fileName=`basename ${file}`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        ${optipng} -dir ${out}/${relDir} ${src}/${relFile}
+
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+}
+
+__optimize_jpg() {
+    list="`find ${src} -type f -name \"*.jpg\" -o -type f -name \"*.jpeg\"`"
+    for file in ${list}
+    do
+        fileName=`basename ${file}`
+        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relDir=`dirname ${relFile}`
+        mkdir -p ${out}/${relDir}
+
+        echo "Optimizing - ${file}"
+        ${jpegtran} -optimize -outfile ${out}/${relFile} ${src}/${relFile}
+
+        if [ $? != 0 ]
+        then
+            cp ${file} ${out}/${relFile}
+        fi
+
+        mkdir -p ${out}_origin/${relDir}
+        cp ${file} ${out}_origin/${relFile}
+    done
+
+}
+
+optimize() {
+    #TODO
+    echo "Minify and concat resources (js, css, html, xml, images,,,)"
+
+    ## CSS minify and concat
+    echo "CSS optimizing..."
+    #__optimize_css
+
+    ## JS minify and concat
+    echo "JS optimizing..."
+    #__optimize_js
+
+    ## HTML minify
+    echo "HTML optimizing..."
+    #__optimize_html
+
+    ## HTML minify
+    echo "XML optimizing..."
+    #__optimize_xml
+
+    ## Image minify
+    echo "PNG, BMP, GIF, PNM or TIFF optimizing..."
+    #__optimize_png
+    
+    echo "JPEG optimizing..."
+    __optimize_jpg
+}
+
+unittest() {
+    #TODO
+    echo "QUnit or PhantomJS and Mocha"
+}
+
+liview() {
+    #TODO
+    echo "Open server and support live view"
+}
+
+dist() {
+    build
+    optimize
+    unittest
+}
+
+create() {
+    #TODO
+    echo "Create project using templates (tizen, tizen:kitchensink)"
+}
+
+while test "$1" != ""
+do
+    echo "[INFO] input option : $1"
+    case "$1" in
+        -s|--src)
+            shift
+            src="$1"
+            ;;
+        -j|--js)
+            jshint="true"
+            shift
+            ;;
+        -c|--css)
+            csslint="true"
+            shift
+            ;;
+        -o|--out)
+            shift
+            out="$1"
+            ;;
+        -p|--port)
+            shift
+            port="$1"
+            ;;
+        -t|--template)
+            shift
+            template="$1"
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
+if [ -d ${out} ]
+then
+    rm -rf ${out}
+    rm -rf ${out}_origin
+    echo "Output directory(${out}) exist. If you want to ${operation} remove ${out} directory or  change output directory."
+    exit 1
+else
+    mkdir -p ${out}
+fi
+
+
+case "$operation" in
+    build)
+        build
+        ;;
+    optimize)
+        optimize
+        ;;
+    unittest)
+        unittest
+        ;;
+    liview)
+        liview
+        ;;
+    dist)
+        dist
+        ;;
+    create)
+        create
+        ;;
+    *)
+        help
+        ;;
+esac
+
