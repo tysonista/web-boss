@@ -11,6 +11,8 @@ yuicompressor=${tools}/yuicompressor-2.4.8pre.jar
 htmlcompressor=${tools}/htmlcompressor-1.5.3.jar
 optipng=${tools}/optipng-0.7.4
 jpegtran=${tools}/jpegtran
+jslint=${tools}/jslint4java.jar
+csslint=${tools}/csslint
 
 help() {
     echo "Usage : web-boss <build|optimize|unittest|liview|dist|create>"
@@ -25,9 +27,46 @@ else
     help
 fi
 
+get_relative_path() {
+
+# both $1 and $2 are paths
+# returns $2 relative to $1
+absolute=`readlink -f "$2"`
+current=`readlink -f "$1"`
+# Perl is magic
+# Quoting horror.... spaces cause problems, that's why we need the extra " in here:
+relative=$(perl -MFile::Spec -e 'print File::Spec->abs2rel("'"$absolute"'","'"$current"'")')
+
+echo $relative
+}
+
 build() {
     #TODO
     echo "Compile little languages, and check error using lint"
+    ## Check error
+
+    ## JSLint
+    ext="js"
+    list=`find ${src} -type f -name "*.${ext}"`
+    echo "Checking error... - javascript"
+#    java -jar ${jslint} --undef --white --anon ${list}
+
+    ## JSLint
+    ext="css"
+    list=`find ${src} -type f -name "*.${ext}"`
+    echo "Checking error... - CSS"
+    #${csslint} ${list}
+
+#    for file in ${list}
+#    do
+#        fileName=`basename ${file} .${ext}`
+#        relFile=`get_relative_path ${src} ${file}`
+#
+#        echo "Checking error... - ${file}"
+#        java -jar ${jslint} --undef --white --anon ${src}/${relFile}
+#    done
+
+    ## CSSLint
 }
 
 __optimize_css() {
@@ -37,7 +76,7 @@ __optimize_css() {
     for file in ${list}
     do
         fileName=`basename ${file} .css`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -60,7 +99,7 @@ __optimize_js() {
     for file in ${list}
     do
         fileName=`basename ${file} .js`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -82,7 +121,7 @@ __optimize_html() {
     for file in ${list}
     do
         fileName=`basename ${file} .html`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -104,7 +143,7 @@ __optimize_xml() {
     for file in ${list}
     do
         fileName=`basename ${file} .xml`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -127,7 +166,7 @@ __optimize_png() {
     for file in ${list}
     do
         fileName=`basename ${file}`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -149,7 +188,7 @@ __optimize_jpg() {
     for file in ${list}
     do
         fileName=`basename ${file}`
-        relFile=`${cmdPath}/relPath.sh ${src} ${file}`
+        relFile=`get_relative_path ${src} ${file}`
         relDir=`dirname ${relFile}`
         mkdir -p ${out}/${relDir}
 
@@ -192,7 +231,7 @@ optimize() {
     #__optimize_png
     
     echo "JPEG optimizing..."
-    __optimize_jpg
+    #__optimize_jpg
 }
 
 unittest() {
@@ -250,22 +289,25 @@ do
     esac
 done
 
-if [ -d ${out} ]
-then
-    rm -rf ${out}
-    rm -rf ${out}_origin
-    echo "Output directory(${out}) exist. If you want to ${operation} remove ${out} directory or  change output directory."
-    exit 1
-else
-    mkdir -p ${out}
-fi
-
+check_output_dir() {
+    if [ -d ${out} ]
+    then
+    #TODO:
+        rm -rf ${out}
+        rm -rf ${out}_origin
+        echo "Output directory(${out}) exist. If you want to ${operation} remove ${out} directory or  change output directory."
+        exit 1
+    else
+        mkdir -p ${out}
+    fi
+}
 
 case "$operation" in
     build)
         build
         ;;
     optimize)
+        check_output_dir
         optimize
         ;;
     unittest)
@@ -275,9 +317,11 @@ case "$operation" in
         liview
         ;;
     dist)
+        check_output_dir
         dist
         ;;
     create)
+        check_output_dir
         create
         ;;
     *)

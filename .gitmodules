@@ -13,3 +13,15 @@
 [submodule "sub/jshint"]
 	path = sub/jshint
 	url = github:jshint/jshint
+[submodule "sub/wro4j"]
+	path = sub/wro4j
+	url = github:alexo/wro4j
+[submodule "sub/jslint4java"]
+	path = sub/jslint4java
+	url = https://code.google.com/p/jslint4java/
+[submodule "sub/csslint"]
+	path = sub/csslint
+	url = github:stubbornella/csslint
+[submodule "sub/rhino"]
+	path = sub/rhino
+	url = https://github.com/mozilla/rhino.git
