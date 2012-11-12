@@ -12,17 +12,17 @@ module.exports = function( grunt ) {
 
     // specify an alternate install location for Bower
     bower: {
-      dir: 'components'
+      dir: 'app/components'
     },
 
     // Coffee to JS compilation
     coffee: {
       compile: {
         files: {
-          'temp/js/*.js': 'js/**/*.coffee' 
+          'temp/scripts/*.js': 'app/scripts/**/*.coffee'
         },
         options: {
-          basePath: 'js'
+          basePath: 'app/scripts'
         }
       }
     },
@@ -32,10 +32,10 @@ module.exports = function( grunt ) {
       dist: {
         // http://compass-style.org/help/tutorials/configuration-reference/#configuration-properties
         options: {
-          css_dir: 'temp/css',
-          sass_dir: 'css',
-          images_dir: 'images',
-          javascripts_dir: 'temp/js',
+          css_dir: 'temp/styles',
+          sass_dir: 'app/styles',
+          images_dir: 'app/images',
+          javascripts_dir: 'temp/scripts',
           force: true
         }
       }
@@ -54,21 +54,21 @@ module.exports = function( grunt ) {
     // default watch configuration
     watch: {
       coffee: {
-        files: 'js/**/*.coffee',
+        files: 'app/scripts/**/*.coffee',
         tasks: 'coffee reload'
       },
       compass: {
         files: [
-          'css/**/*.{scss,sass}'
+          'app/styles/**/*.{scss,sass}'
         ],
         tasks: 'compass reload'
       },
       reload: {
         files: [
-          '*.html',
-          'css/**/*.css',
-          'js/**/*.js',
-          'images/**/*'
+          'app/*.html',
+          'app/styles/**/*.css',
+          'app/scripts/**/*.js',
+          'app/images/**/*'
         ],
         tasks: 'reload'
       }
@@ -79,7 +79,7 @@ module.exports = function( grunt ) {
     lint: {
       files: [
         'Gruntfile.js',
-        'js/**/*.js',
+        'app/scripts/**/*.js',
         'spec/**/*.js'
       ]
     },
@@ -114,24 +114,24 @@ module.exports = function( grunt ) {
     output: 'dist',
 
     mkdirs: {
-      staging: ''
+      staging: 'app/'
     },
 
     // Below, all paths are relative to the staging directory, which is a copy
-    // of the  directory. Any .gitignore, .ignore and .buildignore file
-    // that might appear in the  tree are used to ignore these values
+    // of the app/ directory. Any .gitignore, .ignore and .buildignore file
+    // that might appear in the app/ tree are used to ignore these values
     // during the copy process.
 
     // concat css/**/*.css files, inline @import, output a single minified css
     css: {
-      'css/main.css': ['css/**/*.css']
+      'styles/main.css': ['styles/**/*.css']
     },
 
     // renames JS/CSS to prepend a hash of their contents for easier
     // versioning
     rev: {
-      js: 'js/**/*.js',
-      css: 'css/**/*.css',
+      js: 'scripts/**/*.js',
+      css: 'styles/**/*.css',
       img: 'images/**'
     },
 
@@ -167,23 +167,12 @@ module.exports = function( grunt ) {
     rjs: {
       // no minification, is done by the min task
       optimize: 'none',
-      baseUrl: './js',
-      wrap: true,
-      name: 'main'
+      baseUrl: './scripts',
+      wrap: true
     },
-
-    // While Yeoman handles concat/min when using
-    // usemin blocks, you can still use them manually
-    concat: {
-      dist: ''
-    },
-
-    min: {
-      dist: ''
-    }
   });
 
   // Alias the `test` task to run the `mocha` task instead
-  grunt.registerTask('test', 'server:phantom mocha');
+  grunt.registerTask('test', 'mocha');
 
 };
