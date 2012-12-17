@@ -1,0 +1,8 @@
+#!/bin/more
+
+If you want to use live reload, just execute below step:
+    1. $ tools/tizen-cli/bin/pic
+    2. > server boot port:3501
+    3. run browser(chrome, firefox ,,,)
+    4. input domain "localhost:3501/index.html"
+
